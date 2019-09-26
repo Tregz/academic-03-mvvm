@@ -2,19 +2,24 @@ package com.tregz.mvvm.main
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import com.tregz.mvvm.R
 import com.tregz.mvvm.core.date.DateUtil
 import com.tregz.mvvm.data.DataApple
 import com.tregz.mvvm.list.ListApple
 import com.tregz.mvvm.view.ViewApple
+import kotlinx.android.synthetic.main.main_fragment.*
+import java.text.SimpleDateFormat
 import java.util.*
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), ViewApple {
 
     private lateinit var viewModel: MainBackend
     private var listApple: ListApple? = null
@@ -25,11 +30,11 @@ class MainFragment : Fragment() {
             this.color = R.color.colorPrimary
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val apple1 = DataApple(Date())  // today
         apple1.color = R.color.colorAccent
-        listApple = (activity as MainActivity?)?.let { ListApple(it) }
+        listApple = ListApple(this)
         listApple?.add(apple1)
         listApple?.add(apple1)
         Log.i(TAG, "La pomme 1 est comestible? " + apple1.edible())
@@ -64,6 +69,22 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainBackend::class.java)
         // TODO: Use the ViewModel
+    }
+
+    override fun onAppleCreated(apple: DataApple, listSize: Int, setSize:Int) {
+        Log.i(TAG, "Pomme ajoutée")
+        Log.i(TAG, "Taille de la liste: $listSize")
+        Log.i(TAG, "Taille de l'ensemble: $setSize")
+
+        log.append(HtmlCompat.fromHtml("<b>Pomme ajoutée</b>", FROM_HTML_MODE_LEGACY))
+        val skeleton = "d MMMM yyyy"
+        val formatter = SimpleDateFormat(skeleton, Locale.getDefault())
+        val day = apple.ripe?.let { formatter.format(it) }
+        val unknown = "Non cueillie ou date de cueillette inconnue."
+        val riped = if (day != null) "Cueillie le $day." else unknown
+        log.append("\n" + riped + "\n")
+        val total = "Taille de la liste: $listSize"
+        sum.text = total
     }
 
     companion object {

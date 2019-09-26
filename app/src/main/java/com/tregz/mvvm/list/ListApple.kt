@@ -13,7 +13,7 @@ class ListApple(private val view: ViewApple) {
         list.add(apple)
         set.add(apple)
         map[map.size] = apple
-        view.onAppleCreated(list.size, set.size)
+        view.onAppleCreated(apple, list.size, set.size)
     }
 
 }

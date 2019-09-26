@@ -2,12 +2,15 @@ package com.tregz.mvvm.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import com.tregz.mvvm.R
 import com.tregz.mvvm.list.ListApple
 import com.tregz.mvvm.view.ViewApple
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MainActivity : AppCompatActivity(), ViewApple {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,12 +20,6 @@ class MainActivity : AppCompatActivity(), ViewApple {
                 .replace(R.id.container, MainFragment.newInstance())
                 .commitNow()
         }
-    }
-
-    override fun onAppleCreated(listSize: Int, setSize:Int) {
-        Log.i(TAG, "Pomme ajoutée")
-        Log.i(TAG, "Taille de la liste: $listSize")
-        Log.i(TAG, "Taille de l'ensemble: $setSize")
     }
 
     companion object {
