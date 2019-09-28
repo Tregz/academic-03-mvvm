@@ -75,16 +75,6 @@ class MainFragment : Fragment(), ViewApple {
         Log.i(TAG, "Pomme ajoutée")
         Log.i(TAG, "Taille de la liste: $listSize")
         Log.i(TAG, "Taille de l'ensemble: $setSize")
-
-        log.append(HtmlCompat.fromHtml("<b>Pomme ajoutée</b>", FROM_HTML_MODE_LEGACY))
-        val skeleton = "d MMMM yyyy"
-        val formatter = SimpleDateFormat(skeleton, Locale.getDefault())
-        val day = apple.ripe?.let { formatter.format(it) }
-        val unknown = "Non cueillie ou date de cueillette inconnue."
-        val riped = if (day != null) "Cueillie le $day." else unknown
-        log.append("\n" + riped + "\n")
-        val total = "Taille de la liste: $listSize"
-        sum.text = total
     }
 
     companion object {
